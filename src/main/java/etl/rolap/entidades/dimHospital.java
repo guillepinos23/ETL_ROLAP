@@ -45,6 +45,7 @@ class dimHospital {
 
     public int getCodigoPostal() {
         return codigoPostal;
+
     }
 
     public void setCodigoPostal(int codigoPostal) {
