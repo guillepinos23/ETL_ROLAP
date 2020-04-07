@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import etl.rolap.entidades.Accesos;
 import etl.rolap.repositorios.AccesoRepository;
 
 @Service
