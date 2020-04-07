@@ -5,7 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Date;
 
-public class dimTiempo {
+public class DimTiempo {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
     private Long id;
@@ -17,7 +17,7 @@ public class dimTiempo {
     private String diaSemana;
     private boolean esFinde;
 
-    public dimTiempo(Long id, Date fecha, String dia, String mes, String anno, String cuatrim, String diaSemana, boolean esFinde) {
+    public DimTiempo(Long id, Date fecha, String dia, String mes, String anno, String cuatrim, String diaSemana, boolean esFinde) {
         this.id = id;
         this.fecha = fecha;
         this.dia = dia;
@@ -28,7 +28,7 @@ public class dimTiempo {
         this.esFinde = esFinde;
     }
 
-    public dimTiempo(){
+    public DimTiempo(){
 
     }
 

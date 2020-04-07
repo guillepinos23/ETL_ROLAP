@@ -4,7 +4,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class dimPaciente {
+public class DimPaciente {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
     private Long id;
@@ -14,7 +14,7 @@ public class dimPaciente {
     private String formaFisica;
     private String tabaquismo, alcoholismo, colesterol, hipertension, cardiopatia, rehuma, epoc, hepatitis, cancer;
 
-    public dimPaciente(Long id, int edad, String sexo, int imc, String formaFisica, String tabaquismo, String alcoholismo, String colesterol, String hipertension, String cardiopatia, String rehuma, String epoc, String hepatitis, String cancer) {
+    public DimPaciente(Long id, int edad, String sexo, int imc, String formaFisica, String tabaquismo, String alcoholismo, String colesterol, String hipertension, String cardiopatia, String rehuma, String epoc, String hepatitis, String cancer) {
         this.id = id;
         this.edad = edad;
         this.sexo = sexo;
@@ -31,7 +31,7 @@ public class dimPaciente {
         this.cancer = cancer;
     }
 
-    public dimPaciente(){
+    public DimPaciente(){
 
     }
 

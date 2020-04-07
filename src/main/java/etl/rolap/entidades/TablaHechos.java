@@ -6,25 +6,25 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.sql.Date;
 
-public class tablaHechos {
+public class TablaHechos {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
     private Long id;
     @OneToMany
-    private dimPaciente cliente;
+    private DimPaciente cliente;
     @OneToMany
-    private dimHospital hospital;
+    private DimHospital hospital;
     @OneToMany
-    private dimTiempo fechaIngreso;
+    private DimTiempo fechaIngreso;
 
     private int duracion;
     private boolean uci;
     private boolean fallecido;
     private boolean tatramiento;
-    public tablaHechos (){
+    public TablaHechos(){
 
     }
-    public tablaHechos(Long id, dimPaciente cliente, dimHospital hospital, dimTiempo fechaIngreso, int duracion, boolean uci, boolean fallecido, boolean tatramiento) {
+    public TablaHechos(Long id, DimPaciente cliente, DimHospital hospital, DimTiempo fechaIngreso, int duracion, boolean uci, boolean fallecido, boolean tatramiento) {
         this.id = id;
         this.cliente = cliente;
         this.hospital = hospital;
@@ -43,27 +43,27 @@ public class tablaHechos {
         this.id = id;
     }
 
-    public dimPaciente getCliente() {
+    public DimPaciente getCliente() {
         return cliente;
     }
 
-    public void setCliente(dimPaciente cliente) {
+    public void setCliente(DimPaciente cliente) {
         this.cliente = cliente;
     }
 
-    public dimHospital getHospital() {
+    public DimHospital getHospital() {
         return hospital;
     }
 
-    public void setHospital(dimHospital hospital) {
+    public void setHospital(DimHospital hospital) {
         this.hospital = hospital;
     }
 
-    public dimTiempo getFechaIngreso() {
+    public DimTiempo getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(dimTiempo fechaIngreso) {
+    public void setFechaIngreso(DimTiempo fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
@@ -101,7 +101,7 @@ public class tablaHechos {
 
     @Override
     public String toString() {
-        return "tablaHechos{" +
+        return "TablaHechos{" +
                 "id=" + id +
                 ", cliente=" + cliente +
                 ", hospital=" + hospital +
