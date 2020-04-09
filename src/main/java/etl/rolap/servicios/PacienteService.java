@@ -17,6 +17,10 @@ public class PacienteService {
 	public List<DimPaciente> getAccesos() {
 		return (List<DimPaciente>) repositorio.findAll();
 	}
+	public DimPaciente findById(Long id) {
+
+		return repositorio.findById(id);
+	}
 	
 
 	public void guardarAcceso(DimPaciente t){

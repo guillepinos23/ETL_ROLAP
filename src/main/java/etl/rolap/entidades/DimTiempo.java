@@ -1,12 +1,13 @@
 package etl.rolap.entidades;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Date;
-
+@Entity
 public class DimTiempo {
-    @GeneratedValue(strategy= GenerationType.AUTO)
+
     @Id
     private Long id;
     private Date fecha;

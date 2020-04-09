@@ -1,13 +1,9 @@
 package etl.rolap.entidades;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.sql.Date;
-
+@Entity
 public class TablaHechos {
-    @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
     private Long id;
     @OneToMany
