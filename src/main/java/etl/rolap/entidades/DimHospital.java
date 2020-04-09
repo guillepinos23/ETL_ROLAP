@@ -16,7 +16,7 @@ public class DimHospital {
     private String autopista;
     private String gestor;
 
-    public DimHospital(Long id, String nombre, int codigoPostal, String autopista, String gestor) {
+    public DimHospital(String nombre, int codigoPostal, String autopista, String gestor) {
         this.id = id;
         this.nombre = nombre;
         this.codigoPostal = codigoPostal;

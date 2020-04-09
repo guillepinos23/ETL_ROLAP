@@ -9,12 +9,12 @@ public class DimPaciente {
     @Id
     private Long id;
     private int edad;
-    private String sexo;
+    private int sexo;
     private int imc;
-    private String formaFisica;
-    private String tabaquismo, alcoholismo, colesterol, hipertension, cardiopatia, rehuma, epoc, hepatitis, cancer;
+    private int formaFisica;
+    private int tabaquismo, alcoholismo, colesterol, hipertension, cardiopatia, rehuma, epoc, hepatitis, cancer;
 
-    public DimPaciente(Long id, int edad, String sexo, int imc, String formaFisica, String tabaquismo, String alcoholismo, String colesterol, String hipertension, String cardiopatia, String rehuma, String epoc, String hepatitis, String cancer) {
+    public DimPaciente(Long id, int edad, int sexo, int imc, int formaFisica, int tabaquismo, int alcoholismo, int colesterol, int hipertension, int cardiopatia, int rehuma, int epoc, int hepatitis, int cancer) {
         this.id = id;
         this.edad = edad;
         this.sexo = sexo;
@@ -51,11 +51,11 @@ public class DimPaciente {
         this.edad = edad;
     }
 
-    public String getSexo() {
+    public int getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(int sexo) {
         this.sexo = sexo;
     }
 
@@ -67,83 +67,83 @@ public class DimPaciente {
         this.imc = imc;
     }
 
-    public String getFormaFisica() {
+    public int getFormaFisica() {
         return formaFisica;
     }
 
-    public void setFormaFisica(String formaFisica) {
+    public void setFormaFisica(int formaFisica) {
         this.formaFisica = formaFisica;
     }
 
-    public String getTabaquismo() {
+    public int getTabaquismo() {
         return tabaquismo;
     }
 
-    public void setTabaquismo(String tabaquismo) {
+    public void setTabaquismo(int tabaquismo) {
         this.tabaquismo = tabaquismo;
     }
 
-    public String getAlcoholismo() {
+    public int getAlcoholismo() {
         return alcoholismo;
     }
 
-    public void setAlcoholismo(String alcoholismo) {
+    public void setAlcoholismo(int alcoholismo) {
         this.alcoholismo = alcoholismo;
     }
 
-    public String getColesterol() {
+    public int getColesterol() {
         return colesterol;
     }
 
-    public void setColesterol(String colesterol) {
+    public void setColesterol(int colesterol) {
         this.colesterol = colesterol;
     }
 
-    public String getHipertension() {
+    public int getHipertension() {
         return hipertension;
     }
 
-    public void setHipertension(String hipertension) {
+    public void setHipertension(int hipertension) {
         this.hipertension = hipertension;
     }
 
-    public String getCardiopatia() {
+    public int getCardiopatia() {
         return cardiopatia;
     }
 
-    public void setCardiopatia(String cardiopatia) {
+    public void setCardiopatia(int cardiopatia) {
         this.cardiopatia = cardiopatia;
     }
 
-    public String getRehuma() {
+    public int getRehuma() {
         return rehuma;
     }
 
-    public void setRehuma(String rehuma) {
+    public void setRehuma(int rehuma) {
         this.rehuma = rehuma;
     }
 
-    public String getEpoc() {
+    public int getEpoc() {
         return epoc;
     }
 
-    public void setEpoc(String epoc) {
+    public void setEpoc(int epoc) {
         this.epoc = epoc;
     }
 
-    public String getHepatitis() {
+    public int getHepatitis() {
         return hepatitis;
     }
 
-    public void setHepatitis(String hepatitis) {
+    public void setHepatitis(int hepatitis) {
         this.hepatitis = hepatitis;
     }
 
-    public String getCancer() {
+    public int getCancer() {
         return cancer;
     }
 
-    public void setCancer(String cancer) {
+    public void setCancer(int cancer) {
         this.cancer = cancer;
     }
 

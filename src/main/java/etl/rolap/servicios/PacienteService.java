@@ -3,25 +3,27 @@ package etl.rolap.servicios;
 import java.util.ArrayList;
 import java.util.List;
 
+import etl.rolap.entidades.DimPaciente;
+import etl.rolap.repositorios.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccessService {
+public class PacienteService {
 
 	@Autowired
-	private AccesoRepository repositorio;
+	private PacienteRepository repositorio;
 	
-	public List<Accesos> getAccesos() {
-		return (List<Accesos>) repositorio.findAll();
+	public List<DimPaciente> getAccesos() {
+		return (List<DimPaciente>) repositorio.findAll();
 	}
 	
 
-	public void guardarAcceso(Accesos t){
+	public void guardarAcceso(DimPaciente t){
 		repositorio.save(t);
 	}
 	
-	
+	/*
 	public List<List<String>> numAccesosHora(List<Accesos> listaAccesos){
 		List<String> numAccess=new ArrayList<>();
 		List<String> tiempos=new ArrayList<>();
@@ -75,6 +77,6 @@ public class AccessService {
 		resultado.add(numRecurso);
 		resultado.add(recursos);
 		return resultado;
-	}
+	}*/
 	
 }

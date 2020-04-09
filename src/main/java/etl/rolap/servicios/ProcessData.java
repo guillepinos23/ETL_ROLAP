@@ -11,87 +11,71 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import etl.rolap.entidades.*;
+import sun.jvm.hotspot.debugger.win32.coff.COFFLineNumber;
 
 @Component
 public class ProcessData {
+	@Autowired
+	PacienteService access;
+	@Autowired
+	HospitalService hospitalService;
 	
 	@PostConstruct
 	//Abrimos el archivo
 	public void process(){
-		int contAccT = 0;
 		int contador = 0;
-		try (BufferedReader br = new BufferedReader(new FileReader("H1.csv"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("P1.csv"))) {
 	            String line;	            
 	            while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
 	            	if(contador != 0) {
-						contAccT++;
-						String resultado = line;
-						Long id = resultado.split(";")[0];
-
-						String fecha = resultado.substring(resultado.indexOf("[") + 1, resultado.indexOf("]"));
-						Tiempo tiempo = guardarfecha(fecha);
-						resultado = resultado.substring(resultado.indexOf("]") + 3);
-
-						//Guarda TODOS los accesos del .log
-						Recursos recurso = new Recursos(resultado.substring(0, resultado.indexOf("\"")));
-						if (recurso.getUrl().contains("/nitflex/")) {
-							String tipoRecurso = recurso.getUrl();
-							if (recurso.getUrl().contains("HTTP/"))
-								tipoRecurso = tipoRecurso.substring(0, tipoRecurso.indexOf("HTTP/"));
-							tipoRecurso = tipoRecurso.substring(tipoRecurso.lastIndexOf("/"));
-							if (tipoRecurso.contains(".")) {
-								tipoRecurso = tipoRecurso.substring(tipoRecurso.lastIndexOf("."));
-								if (tipoRecurso.contains("?"))
-									tipoRecurso = tipoRecurso.substring(0, tipoRecurso.indexOf("?"));
-							} else {
-								tipoRecurso = "Otros";
-							}
-							recurso.setUrl(tipoRecurso);
-
-							resultado = resultado.substring(resultado.indexOf("\"") + 1);
-
-							String numeros = resultado.substring(1, resultado.indexOf("\"") - 1);
-							resultado = resultado.substring(resultado.indexOf("\"") + 1);
-
-							String desde = resultado.substring(0, resultado.indexOf("\""));
-							resultado = resultado.substring(resultado.indexOf("\"") + 3);
-							if (desde.length() > 254)
-								desde = "-";
-
-							String buscador = resultado.substring(0, resultado.indexOf("\""));
-							Datos datos = new Datos(ip, numeros, desde, buscador);
-
-
-							//Comprueba si existe el dato de tiempo y obtiene su id
-							long l = servicioTiempo.comprobarTiempo(tiempo);
-							tiempo.setIdt(l);
-
-							//Comprueba si existe el dato de recursos y obtiene su id
-							long r = servicioRecurso.comprobarRecurso(recurso);
-							recurso.setIdr(r);
-
-							servicioDatos.guardarDatos(datos);
-
-							Accesos acceso = new Accesos(recurso, tiempo);
-							servicioAcceso.guardarAcceso(acceso);
-						}//if
-					}
+	            		contador++;
+						String[] resultado = line.split(";");
+						Long id = Long.parseLong(resultado[0]);
+						int edad = Integer.parseInt(resultado[1]);
+						int sexo = Integer.parseInt(resultado[2]);
+						int imc = Integer.parseInt(resultado[3]);
+						int formafisica = Integer.parseInt(resultado[4]);
+						int tabaquismo = Integer.parseInt(resultado[5]);
+						int alcoholismo = Integer.parseInt(resultado[6]);
+						int colesterol = Integer.parseInt(resultado[7]);
+						int hipertension = Integer.parseInt(resultado[8]);
+						int cardiopatica = Integer.parseInt(resultado[9]);
+						int rehuma = Integer.parseInt(resultado[10]);
+						int epoc = Integer.parseInt(resultado[11]);
+						int hepatitis = Integer.parseInt(resultado[12]);
+						int cancer = Integer.parseInt(resultado[13]);
+						DimPaciente d = new DimPaciente(id, edad, sexo, imc, formafisica, tabaquismo, alcoholismo, colesterol, hipertension, cardiopatica, rehuma, epoc, hepatitis, cancer);
+						access.guardarAcceso(d);
+	            	}
 	            }//while
+				cargarHospital();
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
-			//Imprime el informe por consola
-		  	int a = servicioAcceso.getAccesos().size();
-		  	int r = servicioRecurso.getRecursos().size();
-	      	List<Tiempo> list = servicioTiempo.getTiempo();
-		  	System.out.println("El numero total de accesos procesados es:"+ contAccT);
-	      	System.out.println("El numero total de accesos guardados es:"+ a);
-	      	System.out.println("El numero total de tipos de recursos es:"+ r);
-	      	System.out.println("El rango de tiempo es:");
-	      	System.out.println("\t fecha de inicio:"+ list.get(0).getDia()+"/"+list.get(0).getMes()+"/"+ list.get(0).getAnio()+" - "+list.get(0).getHora());
-	      	System.out.println("\t fecha de fin:"+ list.get(list.size()-1).getDia()+"/"+list.get(list.size()-1).getMes()+"/"+ list.get(list.size()-1).getAnio()+" - "+list.get(list.size()-1).getHora());
-		}//process
-	
+	}//process
+	public void cargarHospital(){
+		try (BufferedReader br = new BufferedReader(new FileReader("dimLUGAR.csv"))) {
+			int contador = 0;
+			String line;
+			while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
+				if(contador != 0) {
+					contador++;
+					String[] resultado = line.split(";");
+					String nombre = resultado[1];
+					int codigoPostal = Integer.parseInt(resultado[2]);
+					String autopista = resultado[3];
+					String gestor = resultado[4];
+					DimHospital h = new DimHospital(nombre,codigoPostal,autopista,gestor);
+					hospitalService.guardarAcceso(h);
+
+				}
+			}//while
+			cargarHospital();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}//process
+	}
 	public static Tiempo guardarfecha(String fecha) {
 		Tiempo time = new Tiempo();
 		time.setDia(Integer.parseInt(fecha.substring(0,2)));
