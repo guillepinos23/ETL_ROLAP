@@ -14,72 +14,68 @@ import etl.rolap.entidades.*;
 
 @Component
 public class ProcessData {
-	@Autowired
-	private TimeServices servicioTiempo;
-	@Autowired
- 	private AccessService servicioAcceso;
-	@Autowired
-	private ResourceService servicioRecurso;
-	@Autowired
-	private DataService servicioDatos;
 	
 	@PostConstruct
 	//Abrimos el archivo
 	public void process(){
 		int contAccT = 0;
-		try (BufferedReader br = new BufferedReader(new FileReader("accesos-servidor-nitflex.log"))) { //mas-accesos-servidor-nitflex.log
+		int contador = 0;
+		try (BufferedReader br = new BufferedReader(new FileReader("H1.csv"))) {
 	            String line;	            
-	            while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion	
-	            	contAccT++;
-	            	String resultado = line;		            	
-	            	String ip = resultado.split(" - -")[0];
-	            	String fecha = resultado.substring(resultado.indexOf("[")+1, resultado.indexOf("]"));
-	            	Tiempo tiempo = guardarfecha(fecha);		            	
-	            	resultado = resultado.substring(resultado.indexOf("]")+3);
-	            	
-	            	//Guarda TODOS los accesos del .log
-	            	Recursos recurso = new Recursos(resultado.substring(0, resultado.indexOf("\"")));
-	            	if (recurso.getUrl().contains("/nitflex/")){
-	            		String tipoRecurso=recurso.getUrl();
-	            		if(recurso.getUrl().contains("HTTP/"))
-	            			tipoRecurso=tipoRecurso.substring(0,tipoRecurso.indexOf("HTTP/"));
-	            		tipoRecurso=tipoRecurso.substring(tipoRecurso.lastIndexOf("/"));
-	            		if(tipoRecurso.contains(".")){
-	            			tipoRecurso=tipoRecurso.substring(tipoRecurso.lastIndexOf("."));
-	            			if(tipoRecurso.contains("?"))
-	            				tipoRecurso=tipoRecurso.substring(0,tipoRecurso.indexOf("?"));
-	            		}else{
-	            			tipoRecurso="Otros";
-	            		}
-	            		recurso.setUrl(tipoRecurso);
-	            		
-	            		resultado = resultado.substring(resultado.indexOf("\"")+1);
-		            	
-		            	String numeros = resultado.substring(1,resultado.indexOf("\"")-1);
-		            	resultado = resultado.substring(resultado.indexOf("\"")+1);
-		            	
-		            	String desde = resultado.substring(0,resultado.indexOf("\""));
-		            	resultado = resultado.substring(resultado.indexOf("\"")+3);
-		            	if(desde.length()>254)
-		            		desde="-";
+	            while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
+	            	if(contador != 0) {
+						contAccT++;
+						String resultado = line;
+						Long id = resultado.split(";")[0];
 
-		            	String buscador = resultado.substring(0,resultado.indexOf("\""));
-		            	Datos datos = new Datos(ip,numeros,desde,buscador);
-		            	
-		            	
-		            	//Comprueba si existe el dato de tiempo y obtiene su id
-		            	long l = servicioTiempo.comprobarTiempo(tiempo);
-		            	tiempo.setIdt(l);
-		            	
-		            	//Comprueba si existe el dato de recursos y obtiene su id
-		            	long r = servicioRecurso.comprobarRecurso(recurso);
-		            	recurso.setIdr(r);
-		            			            	
-		            	servicioDatos.guardarDatos(datos); 
-		            	
-		            	Accesos acceso = new Accesos(recurso, tiempo);
-		            	servicioAcceso.guardarAcceso(acceso);
-	            	}//if 	               
+						String fecha = resultado.substring(resultado.indexOf("[") + 1, resultado.indexOf("]"));
+						Tiempo tiempo = guardarfecha(fecha);
+						resultado = resultado.substring(resultado.indexOf("]") + 3);
+
+						//Guarda TODOS los accesos del .log
+						Recursos recurso = new Recursos(resultado.substring(0, resultado.indexOf("\"")));
+						if (recurso.getUrl().contains("/nitflex/")) {
+							String tipoRecurso = recurso.getUrl();
+							if (recurso.getUrl().contains("HTTP/"))
+								tipoRecurso = tipoRecurso.substring(0, tipoRecurso.indexOf("HTTP/"));
+							tipoRecurso = tipoRecurso.substring(tipoRecurso.lastIndexOf("/"));
+							if (tipoRecurso.contains(".")) {
+								tipoRecurso = tipoRecurso.substring(tipoRecurso.lastIndexOf("."));
+								if (tipoRecurso.contains("?"))
+									tipoRecurso = tipoRecurso.substring(0, tipoRecurso.indexOf("?"));
+							} else {
+								tipoRecurso = "Otros";
+							}
+							recurso.setUrl(tipoRecurso);
+
+							resultado = resultado.substring(resultado.indexOf("\"") + 1);
+
+							String numeros = resultado.substring(1, resultado.indexOf("\"") - 1);
+							resultado = resultado.substring(resultado.indexOf("\"") + 1);
+
+							String desde = resultado.substring(0, resultado.indexOf("\""));
+							resultado = resultado.substring(resultado.indexOf("\"") + 3);
+							if (desde.length() > 254)
+								desde = "-";
+
+							String buscador = resultado.substring(0, resultado.indexOf("\""));
+							Datos datos = new Datos(ip, numeros, desde, buscador);
+
+
+							//Comprueba si existe el dato de tiempo y obtiene su id
+							long l = servicioTiempo.comprobarTiempo(tiempo);
+							tiempo.setIdt(l);
+
+							//Comprueba si existe el dato de recursos y obtiene su id
+							long r = servicioRecurso.comprobarRecurso(recurso);
+							recurso.setIdr(r);
+
+							servicioDatos.guardarDatos(datos);
+
+							Accesos acceso = new Accesos(recurso, tiempo);
+							servicioAcceso.guardarAcceso(acceso);
+						}//if
+					}
 	            }//while
 	        } catch (IOException e) {
 	            e.printStackTrace();
