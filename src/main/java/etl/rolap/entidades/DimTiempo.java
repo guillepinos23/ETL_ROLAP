@@ -11,14 +11,14 @@ public class DimTiempo {
     @Id
     private Long id;
     private Date fecha;
-    private String dia;
-    private String mes;
-    private String anno;
+    private int dia;
+    private int mes;
+    private int anno;
     private String cuatrim;
     private String diaSemana;
     private boolean esFinde;
 
-    public DimTiempo(Long id, Date fecha, String dia, String mes, String anno, String cuatrim, String diaSemana, boolean esFinde) {
+    public DimTiempo(Long id, Date fecha, int dia, int mes, int anno, String cuatrim, String diaSemana, boolean esFinde) {
         this.id = id;
         this.fecha = fecha;
         this.dia = dia;
@@ -49,27 +49,27 @@ public class DimTiempo {
         this.fecha = fecha;
     }
 
-    public String getDia() {
+    public int getDia() {
         return dia;
     }
 
-    public void setDia(String dia) {
+    public void setDia(int dia) {
         this.dia = dia;
     }
 
-    public String getMes() {
+    public int getMes() {
         return mes;
     }
 
-    public void setMes(String mes) {
+    public void setMes(int mes) {
         this.mes = mes;
     }
 
-    public String getAnno() {
+    public int getAnno() {
         return anno;
     }
 
-    public void setAnno(String anno) {
+    public void setAnno(int anno) {
         this.anno = anno;
     }
 

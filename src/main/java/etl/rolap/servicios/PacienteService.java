@@ -2,11 +2,13 @@ package etl.rolap.servicios;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import etl.rolap.entidades.DimPaciente;
 import etl.rolap.repositorios.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class PacienteService {
@@ -17,7 +19,7 @@ public class PacienteService {
 	public List<DimPaciente> getAccesos() {
 		return (List<DimPaciente>) repositorio.findAll();
 	}
-	public DimPaciente findById(Long id) {
+	public Optional<DimPaciente> findById(Long id) {
 
 		return repositorio.findById(id);
 	}
@@ -32,7 +34,7 @@ public class PacienteService {
 		List<String> numAccess=new ArrayList<>();
 		List<String> tiempos=new ArrayList<>();
 		List<List<String>> resultado=new ArrayList<>();	
-		
+
 		for(Accesos aux: listaAccesos){
 			Integer aux2=(int) aux.getTiempo().getIdt();
 			if(numAccess.isEmpty()){

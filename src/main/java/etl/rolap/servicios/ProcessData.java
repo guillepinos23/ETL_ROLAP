@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import etl.rolap.entidades.*;
-import sun.jvm.hotspot.debugger.win32.coff.COFFLineNumber;
 
 @Component
 public class ProcessData {
@@ -26,12 +26,13 @@ public class ProcessData {
 	@PostConstruct
 	//Abrimos el archivo
 	public void process(){
-		int contador = 0;
+		int contador = -1;
 		try (BufferedReader br = new BufferedReader(new FileReader("P1.csv"))) {
 	            String line;	            
 	            while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
-	            	if(contador != 0) {
-	            		contador++;
+                    contador++;
+	                if(contador != 0) {
+
 						String[] resultado = line.split(";");
 						Long id = Long.parseLong(resultado[0]);
 						int edad = Integer.parseInt(resultado[1]);
@@ -60,11 +61,12 @@ public class ProcessData {
 	@PostConstruct
 	public void cargarHospital(){
 		try (BufferedReader br = new BufferedReader(new FileReader("dimLUGAR.csv"))) {
-			int contador = 0;
+			int contador = -1;
 			String line;
 			while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
+                contador++;
 				if(contador != 0) {
-					contador++;
+
 					String[] resultado = line.split(";");
 					String nombre = resultado[1];
 					int codigoPostal = Integer.parseInt(resultado[2]);
@@ -82,22 +84,22 @@ public class ProcessData {
 	}//process
 	@PostConstruct
 	public void cargarTiempo(){
-		int contador = 0;
+		int contador = -1;
 		try (BufferedReader br = new BufferedReader(new FileReader("P1.csv"))) {
 			String line;
 			while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
+                contador++;
 				if(contador != 0) {
-					contador++;
 					String[] resultado = line.split(";");
 					Long id = Long.parseLong(resultado[0]);
 					int dia = Integer.parseInt(resultado[2]);
 					int mes = Integer.parseInt(resultado[3]);
 					int anno = Integer.parseInt(resultado[4]);
 					Date t = guardarfecha(dia,mes,anno);
-					int cuatrim = Integer.parseInt(resultado[5]);
+					String cuatrim = resultado[5];
 					String diaSemana = resultado[6];
 					boolean esFinde = Boolean.parseBoolean(resultado[7]);
-					DimTiempo d = new DimTiempo(id,d,dia,mes,anno,cuatrim,diaSemana,esFinde);
+					DimTiempo d = new DimTiempo(id,t,dia,mes,anno,cuatrim,diaSemana,esFinde);
 					tiempoService.guardarAcceso(d);
 
 				}
@@ -121,7 +123,7 @@ public class ProcessData {
 					String[] resultado = line.split(";");
 					Long id = Long.parseLong(resultado[0]);
 					Long paciente = Long.parseLong(resultado[1]);
-					DimPaciente d = access.findById(id);
+					Optional<DimPaciente> d = access.findById(id);
 					DimTiempo t ;
 					int duracion = Integer.parseInt(resultado[2]);
 					String uci = resultado[3];

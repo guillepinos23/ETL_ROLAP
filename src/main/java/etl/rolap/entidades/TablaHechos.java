@@ -2,16 +2,18 @@ package etl.rolap.entidades;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
+
 @Entity
 public class TablaHechos {
     @Id
     private Long id;
     @OneToMany
-    private DimPaciente cliente;
+    private List<DimPaciente> cliente;
     @OneToMany
-    private DimHospital hospital;
+    private List<DimHospital> hospital;
     @OneToMany
-    private DimTiempo fechaIngreso;
+    private List<DimTiempo> fechaIngreso;
 
     private int duracion;
     private boolean uci;
@@ -20,7 +22,7 @@ public class TablaHechos {
     public TablaHechos(){
 
     }
-    public TablaHechos(Long id, DimPaciente cliente, DimHospital hospital, DimTiempo fechaIngreso, int duracion, boolean uci, boolean fallecido, boolean tatramiento) {
+    public TablaHechos(Long id, List<DimPaciente> cliente, List<DimHospital> hospital, List<DimTiempo> fechaIngreso, int duracion, boolean uci, boolean fallecido, boolean tatramiento) {
         this.id = id;
         this.cliente = cliente;
         this.hospital = hospital;
@@ -39,27 +41,27 @@ public class TablaHechos {
         this.id = id;
     }
 
-    public DimPaciente getCliente() {
+    public List<DimPaciente> getCliente() {
         return cliente;
     }
 
-    public void setCliente(DimPaciente cliente) {
+    public void setCliente(List<DimPaciente> cliente) {
         this.cliente = cliente;
     }
 
-    public DimHospital getHospital() {
+    public List<DimHospital> getHospital() {
         return hospital;
     }
 
-    public void setHospital(DimHospital hospital) {
+    public void setHospital(List<DimHospital> hospital) {
         this.hospital = hospital;
     }
 
-    public DimTiempo getFechaIngreso() {
+    public List<DimTiempo> getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(DimTiempo fechaIngreso) {
+    public void setFechaIngreso(List<DimTiempo> fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
