@@ -22,6 +22,8 @@ public class ProcessData {
 	HospitalService hospitalService;
 	@Autowired
 	TiempoService tiempoService;
+    @Autowired
+    HechosService hechos ;
 
 	@PostConstruct
 	//Abrimos el archivo
@@ -85,7 +87,7 @@ public class ProcessData {
 	@PostConstruct
 	public void cargarTiempo(){
 		int contador = -1;
-		try (BufferedReader br = new BufferedReader(new FileReader("P1.csv"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("dimTIEMPO.csv"))) {
 			String line;
 			while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
                 contador++;
@@ -114,22 +116,25 @@ public class ProcessData {
 	@PostConstruct
 	//Abrimos el archivo
 	public void tablaHechos(){
-		int contador = 0;
+		int contador = -1;
 		try (BufferedReader br = new BufferedReader(new FileReader("H1.csv"))) {
 			String line;
 			while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
-				if(contador != 0) {
-					contador++;
+                contador++;
+			    if(contador != 0) {
+
 					String[] resultado = line.split(";");
 					Long id = Long.parseLong(resultado[0]);
 					Long paciente = Long.parseLong(resultado[1]);
 					Optional<DimPaciente> d = access.findById(id);
-					DimTiempo t ;
-					int duracion = Integer.parseInt(resultado[2]);
-					String uci = resultado[3];
-					String fallecido = resultado[4];
-					int tratamiento = Integer.parseInt(resultado[5]);
-
+					Date di = new Date();
+					//DimTiempo t =this.tiempoService.recogerFecha(di);
+					int duracion = Integer.parseInt(resultado[3]);
+					String uci = resultado[4];
+					String fallecido = resultado[5];
+					int tratamiento = Integer.parseInt(resultado[6]);
+					TablaHechos tabla = new TablaHechos(id,d,di,duracion,uci,fallecido,tratamiento);
+                    this.hechos.guardarAcceso();
 				}
 			}//while
 

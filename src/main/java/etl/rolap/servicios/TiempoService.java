@@ -7,6 +7,7 @@ import etl.rolap.repositorios.TiempoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 @Service
 public class TiempoService {
@@ -20,4 +21,7 @@ public class TiempoService {
     public void guardarAcceso(DimTiempo t){
         repositorio.save(t);
     }
+    public DimTiempo recogerFecha(Date t){
+        return repositorio.findByFecha(t);
+    };
 }
