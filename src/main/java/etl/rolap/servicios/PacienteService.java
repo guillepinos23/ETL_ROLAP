@@ -19,7 +19,7 @@ public class PacienteService {
 	public List<DimPaciente> getAccesos() {
 		return (List<DimPaciente>) repositorio.findAll();
 	}
-	public Optional<DimPaciente> findById(Long id) {
+	public DimPaciente findById(long id) {
 
 		return repositorio.findById(id);
 	}

@@ -1,23 +1,26 @@
 package etl.rolap.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 @Entity
 public class DimHospital {
-
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
     private Long id;
 
+    @Column
+    private String idn;
+    @Column
     private String nombre;
+    @Column
     private int codigoPostal;
+    @Column
     private String autopista;
+    @Column
     private String gestor;
 
-    public DimHospital(String nombre, int codigoPostal, String autopista, String gestor) {
-        this.id = id;
+    public DimHospital(String idn,String nombre, int codigoPostal, String autopista, String gestor) {
+        this.idn = idn;
         this.nombre = nombre;
         this.codigoPostal = codigoPostal;
         this.autopista = autopista;
@@ -32,8 +35,16 @@ public class DimHospital {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long idn) {
         this.id = id;
+    }
+
+    public String getIdn() {
+        return idn;
+    }
+
+    public void setIdn(String id) {
+        this.idn = idn;
     }
 
     public String getNombre() {

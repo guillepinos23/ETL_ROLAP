@@ -1,24 +1,28 @@
 package etl.rolap.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.sql.Date;
+import javax.persistence.*;
+import java.util.Date;
 @Entity
 public class DimTiempo {
 
     @Id
     private Long id;
-    private Date fecha;
+    @Column
+    private String fecha;
+    @Column
     private int dia;
+    @Column
     private int mes;
+    @Column
     private int anno;
+    @Column
     private String cuatrim;
+    @Column
     private String diaSemana;
+    @Column
     private boolean esFinde;
 
-    public DimTiempo(Long id, Date fecha, int dia, int mes, int anno, String cuatrim, String diaSemana, boolean esFinde) {
+    public DimTiempo(Long id, String fecha, int dia, int mes, int anno, String cuatrim, String diaSemana, boolean esFinde) {
         this.id = id;
         this.fecha = fecha;
         this.dia = dia;
@@ -41,11 +45,11 @@ public class DimTiempo {
         this.id = id;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

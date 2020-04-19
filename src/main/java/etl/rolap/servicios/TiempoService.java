@@ -15,13 +15,10 @@ public class TiempoService {
     @Autowired
     private TiempoRepository repositorio;
 
-
-
-
     public void guardarAcceso(DimTiempo t){
         repositorio.save(t);
     }
-    public DimTiempo recogerFecha(Date t){
+    public DimTiempo recogerFecha(String t){
         return repositorio.findByFecha(t);
     };
 }

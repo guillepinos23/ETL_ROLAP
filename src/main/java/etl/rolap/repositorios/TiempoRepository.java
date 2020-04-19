@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 
 @Repository
-public interface TiempoRepository extends JpaRepository<DimTiempo,Integer> {
-    DimTiempo findByFecha(Date fecha);
+public interface TiempoRepository extends JpaRepository<DimTiempo,Long> {
+    DimTiempo findByFecha(String fecha);
 
 }

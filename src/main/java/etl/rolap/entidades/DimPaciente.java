@@ -1,22 +1,24 @@
 package etl.rolap.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 @Entity
 public class DimPaciente {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
     private Long id;
+    @Column
     private int edad;
+    @Column
     private int sexo;
+    @Column
     private int imc;
+    @Column
     private int formaFisica;
+    @Column
     private int tabaquismo, alcoholismo, colesterol, hipertension, cardiopatia, rehuma, epoc, hepatitis, cancer;
 
-    public DimPaciente(Long id, int edad, int sexo, int imc, int formaFisica, int tabaquismo, int alcoholismo, int colesterol, int hipertension, int cardiopatia, int rehuma, int epoc, int hepatitis, int cancer) {
-        this.id = id;
+    public DimPaciente(int edad, int sexo, int imc, int formaFisica, int tabaquismo, int alcoholismo, int colesterol, int hipertension, int cardiopatia, int rehuma, int epoc, int hepatitis, int cancer) {
         this.edad = edad;
         this.sexo = sexo;
         this.imc = imc;

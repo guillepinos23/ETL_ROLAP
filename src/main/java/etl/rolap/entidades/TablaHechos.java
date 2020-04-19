@@ -2,28 +2,33 @@ package etl.rolap.entidades;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class TablaHechos {
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column
     @Id
     private Long id;
-    @OneToMany
-    private List<DimPaciente> cliente;
-    @OneToMany
-    private List<DimHospital> hospital;
-    @OneToMany
-    private List<DimTiempo> fechaIngreso;
+    @ManyToOne(optional = false)
+    @JoinColumn(name="id_cliente")
+    private DimPaciente cliente;
+    @ManyToOne(optional = false)
+    @JoinColumn(name="id_hospital")
+    private DimHospital hospital;
+    @ManyToOne(optional =false)
+    @JoinColumn(name="id_tiempo")
+    private DimTiempo fechaIngreso;
 
     private int duracion;
     private boolean uci;
     private boolean fallecido;
-    private boolean tatramiento;
+    private int tatramiento;
     public TablaHechos(){
 
     }
-    public TablaHechos(Long id, List<DimPaciente> cliente, List<DimHospital> hospital, List<DimTiempo> fechaIngreso, int duracion, boolean uci, boolean fallecido, boolean tatramiento) {
-        this.id = id;
+    public TablaHechos( DimPaciente cliente,DimHospital hospital, DimTiempo fechaIngreso, int duracion, boolean uci, boolean fallecido, int tatramiento) {
         this.cliente = cliente;
         this.hospital = hospital;
         this.fechaIngreso = fechaIngreso;
@@ -41,27 +46,27 @@ public class TablaHechos {
         this.id = id;
     }
 
-    public List<DimPaciente> getCliente() {
+    public DimPaciente getCliente() {
         return cliente;
     }
 
-    public void setCliente(List<DimPaciente> cliente) {
+    public void setCliente(DimPaciente cliente) {
         this.cliente = cliente;
     }
 
-    public List<DimHospital> getHospital() {
+    public DimHospital getHospital() {
         return hospital;
     }
 
-    public void setHospital(List<DimHospital> hospital) {
+    public void setHospital(DimHospital hospital) {
         this.hospital = hospital;
     }
 
-    public List<DimTiempo> getFechaIngreso() {
+    public DimTiempo getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(List<DimTiempo> fechaIngreso) {
+    public void setFechaIngreso(DimTiempo fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
@@ -89,11 +94,11 @@ public class TablaHechos {
         this.fallecido = fallecido;
     }
 
-    public boolean isTatramiento() {
+    public int isTatramiento() {
         return tatramiento;
     }
 
-    public void setTatramiento(boolean tatramiento) {
+    public void setTatramiento(int tatramiento) {
         this.tatramiento = tatramiento;
     }
 

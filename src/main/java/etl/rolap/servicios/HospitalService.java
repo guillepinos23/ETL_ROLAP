@@ -8,16 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class HospitalService {
     @Autowired
     private HospitalRepository repositorio;
 
 
-
-
     public void guardarAcceso(DimHospital t){
         repositorio.save(t);
+    }
+
+    public DimHospital findById(long id){
+       return repositorio.findById(id);
     }
 
 }
