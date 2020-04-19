@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 public class DimHospital {
-    @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
     private Long id;
 
@@ -19,7 +18,8 @@ public class DimHospital {
     @Column
     private String gestor;
 
-    public DimHospital(String idn,String nombre, int codigoPostal, String autopista, String gestor) {
+    public DimHospital(long id,String idn,String nombre, int codigoPostal, String autopista, String gestor) {
+        this.id=id;
         this.idn = idn;
         this.nombre = nombre;
         this.codigoPostal = codigoPostal;

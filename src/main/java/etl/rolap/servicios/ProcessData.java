@@ -31,7 +31,7 @@ public class ProcessData {
 	@PostConstruct
 	//Abrimos el archivo
 	public void process(){
-		for(int i=1;i<5;i++) {
+		for(int i=1;i<=4;i++) {
 			int contador = -1;
 			try (BufferedReader br = new BufferedReader(new FileReader("P"+i+".csv"))) {
 				String line;
@@ -137,14 +137,14 @@ public class ProcessData {
 			while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
                 contador++;
 				if(contador != 0) {
-
+					Long l = Long.valueOf(contador);
 					String[] resultado = line.split(";");
 					String id = resultado[0];
 					String nombre = resultado[1];
 					int codigoPostal = Integer.parseInt(resultado[2]);
 					String autopista = resultado[3];
 					String gestor = resultado[4];
-					DimHospital h = new DimHospital(id,nombre,codigoPostal,autopista,gestor);
+					DimHospital h = new DimHospital(l,id,nombre,codigoPostal,autopista,gestor);
 					hospitalService.guardarAcceso(h);
 
 				}
@@ -191,9 +191,10 @@ public class ProcessData {
 	//Abrimos el archivo
 	public void tablaHechos(){
 		int contador = -1;
-		for(int i =1;i<3;i++){
+		for(int i =1;i<=4;i++){
 		try (BufferedReader br = new BufferedReader(new FileReader("H"+i+".csv"))) {
 			String line;
+			contador = -1;
 			while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
                 contador++;
 			    if(contador != 0) {
@@ -201,13 +202,11 @@ public class ProcessData {
 					List<DimPaciente> paceintes = new ArrayList<>();
 					List<DimTiempo> tiempo = new ArrayList<>();
 					String[] resultado = line.split(";");
-					Long paciente = Long.parseLong(resultado[1]);
 					DimPaciente d = access.findById(contador);
 					Long ia = Long.valueOf(i);
 					DimHospital h = this.hospitalService.findById(ia);
 					String fecha = resultado[2];
 					String[] res = fecha.split("/");
-					int a = res[2].length();
 					if(res[2].length()==2){
 						fecha = res[0]+"/"+res[1]+"/"+"20"+res[2];
 					}
