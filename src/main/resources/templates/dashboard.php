@@ -24,31 +24,54 @@
 	function drawChartP1() {
 		var data = new google.visualization.arrayToDataTable([
 		['edad','alcoholismo'],
+		<?php
+			$query = "SELECT alcoholismo, edad FROM dim_paciente";
+			$exec = mysqli_query($con,$query);
+			while($row = mysqli_fetch_array($exec)){
+				echo "['".$row['edad']."',".$row['alcoholismo']."],";
+			}
+		?>
+    	]);
+    	var options = {
+    	title: 'Number of Payments according to their method',
+    	pieHole: 0.5,
+    	pieSliceTextStyle: {
+    			color: 'black',
+			},
+    	legend: 'top',
+    	is3D: false
+    	};
 
-            <?php
-				$query = "SELECT alcoholismo, edad FROM dim_paciente";
-                $exec = mysqli_query($con,$query);
-				while($row = mysqli_fetch_array($exec)){
-                    echo "['".$row['edad']."',".$row['alcoholismo']."],";
-				}
-			?>
-    		]);
+    	var chart = new google.visualization.PieChart(document.getElementById("p1Chart"));
+			chart.draw(data,options);
+    }
+	google.charts.load('current', {'packages':['gauge']});
+	google.charts.setOnLoadCallback(drawChartP2);
+	function drawChartP2() {
 
-    		var options = {
-    			title: 'Number of Payments according to their method',
-    			pieHole: 0.5,
-    			pieSliceTextStyle: {
-    				color: 'black',
-    			},
-    			legend: 'top',
-    			is3D: false
-    		};
-
-    		var chart = new google.visualization.PieChart(document.getElementById("p1Chart"));
-
-    		chart.draw(data,options);
-    	}
-		 </script>
+		var data = google.visualization.arrayToDataTable([
+		['Hospital', 'Value'],
+		['Hospital', <?php
+                		$query = "SELECT count(uci) FROM tabla_hechos where id_hospital=1";
+                        $exec = mysqli_query($con,$query);
+						while($row = mysqli_fetch_array($exec)){
+                            echo "['".$row['Hospital']."',".$row['Value']."],";
+						}
+                		?>]);
+		var options = {
+            width: 400, height: 120,
+			redFrom: 90, redTo: 100,
+			yellowFrom:75, yellowTo: 90,
+			minorTicks: 5
+			};
+			var chart = new google.visualization.Gauge(document.getElementById('p2Chart'));
+			chart.draw(data, options);
+			setInterval(function() {
+			data.setValue(0, 1,40);
+			chart.draw(data, options);
+			}, 13000);
+			}
+</script>
  <script src="charts.js"></script>
  <link rel="stylesheet" href="style.css">
 
