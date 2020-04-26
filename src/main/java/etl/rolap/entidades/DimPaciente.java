@@ -10,13 +10,13 @@ public class DimPaciente {
     @Column
     private int edad;
     @Column
-    private int sexo;
+    private int sexo;//0 o 1 0 es hombre y 1 mujer
     @Column
     private int imc;
     @Column
     private int formaFisica;
     @Column
-    private int tabaquismo, alcoholismo, colesterol, hipertension, cardiopatia, rehuma, epoc, hepatitis, cancer;
+    private int tabaquismo, alcoholismo, colesterol, hipertension, cardiopatia, rehuma, epoc, hepatitis, cancer;//0 o 1 0 es true y 1 false
 
     public DimPaciente(int edad, int sexo, int imc, int formaFisica, int tabaquismo, int alcoholismo, int colesterol, int hipertension, int cardiopatia, int rehuma, int epoc, int hepatitis, int cancer) {
         this.edad = edad;

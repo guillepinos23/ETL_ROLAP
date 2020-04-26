@@ -22,13 +22,13 @@ public class TablaHechos {
     private DimTiempo fechaIngreso;
 
     private int duracion;
-    private boolean uci;
-    private boolean fallecido;
+    private int uci;//0 o 1 0 es true y 1 false
+    private int fallecido;//0 o 1 0 es true y 1 false
     private int tatramiento;
     public TablaHechos(){
 
     }
-    public TablaHechos( DimPaciente cliente,DimHospital hospital, DimTiempo fechaIngreso, int duracion, boolean uci, boolean fallecido, int tatramiento) {
+    public TablaHechos( DimPaciente cliente,DimHospital hospital, DimTiempo fechaIngreso, int duracion, int uci, int fallecido, int tatramiento) {
         this.cliente = cliente;
         this.hospital = hospital;
         this.fechaIngreso = fechaIngreso;
@@ -78,19 +78,19 @@ public class TablaHechos {
         this.duracion = duracion;
     }
 
-    public boolean isUci() {
+    public int isUci() {
         return uci;
     }
 
-    public void setUci(boolean uci) {
+    public void setUci(int uci) {
         this.uci = uci;
     }
 
-    public boolean isFallecido() {
+    public int isFallecido() {
         return fallecido;
     }
 
-    public void setFallecido(boolean fallecido) {
+    public void setFallecido(int fallecido) {
         this.fallecido = fallecido;
     }
 

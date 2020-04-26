@@ -28,7 +28,6 @@ public class ProcessData {
     @Autowired
     HechosService hechos ;
 
-	@PostConstruct
 	//Abrimos el archivo
 	public void process(){
 		for(int i=1;i<=4;i++) {
@@ -129,7 +128,6 @@ public class ProcessData {
 		}
 	}//process
 
-	@PostConstruct
 	public void cargarHospital(){
 		try (BufferedReader br = new BufferedReader(new FileReader("dimLUGAR.csv"))) {
 			int contador = -1;
@@ -154,7 +152,7 @@ public class ProcessData {
 			e.printStackTrace();
 		}
 	}//process
-	@PostConstruct
+
 	public void cargarTiempo(){
 		int contador = -1;
 		try (BufferedReader br = new BufferedReader(new FileReader("dimTIEMPO.csv"))) {
@@ -187,7 +185,6 @@ public class ProcessData {
 
 	}
 
-	@PostConstruct
 	//Abrimos el archivo
 	public void tablaHechos(){
 		int contador = -1;
@@ -198,7 +195,6 @@ public class ProcessData {
 			while ((line = br.readLine()) != null) {  //Vamos linea a linea separando la informacion
                 contador++;
 			    if(contador != 0) {
-			    	List<DimHospital> hospitales = new ArrayList<>();
 					List<DimPaciente> paceintes = new ArrayList<>();
 					List<DimTiempo> tiempo = new ArrayList<>();
 					String[] resultado = line.split(";");
@@ -213,8 +209,16 @@ public class ProcessData {
 					java.util.Date fec = this.transformar(fecha);
 					DimTiempo t =this.tiempoService.recogerFecha(fecha);
 					int duracion = Integer.parseInt(resultado[3]);
-					Boolean uci = Boolean.parseBoolean(resultado[4]);
-					Boolean fallecido = Boolean.parseBoolean(resultado[5]);
+					int uci=0;
+					if(resultado[4].equals("No")) {
+						uci=1;
+
+					}
+					int fallecido=0;
+					if(resultado[5].equals("No")) {
+						fallecido=1;
+					}
+
 					int tratamiento = Integer.parseInt(resultado[6]);
 					paceintes.add(d);
 
@@ -251,5 +255,12 @@ public class ProcessData {
 
 		return date;
 
+	}
+	@PostConstruct
+	public void init(){
+		this.cargarHospital();
+		this.cargarTiempo();
+		this.process();
+		this.tablaHechos();
 	}
 }
