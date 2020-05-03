@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 public class TablaHechos {
-    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column
     @Id
     private Long id;
@@ -28,7 +27,8 @@ public class TablaHechos {
     public TablaHechos(){
 
     }
-    public TablaHechos( DimPaciente cliente,DimHospital hospital, DimTiempo fechaIngreso, int duracion, int uci, int fallecido, int tatramiento) {
+    public TablaHechos( long id,DimPaciente cliente,DimHospital hospital, DimTiempo fechaIngreso, int duracion, int uci, int fallecido, int tatramiento) {
+        this.id = id;
         this.cliente = cliente;
         this.hospital = hospital;
         this.fechaIngreso = fechaIngreso;

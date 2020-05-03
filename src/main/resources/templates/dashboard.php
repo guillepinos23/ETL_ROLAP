@@ -13,66 +13,116 @@
 
  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
  <script type="text/javascript">
+
+
+	
 	google.charts.load('current', {'packages':['sankey','corechart', 'bar', 'calendar']});
 	google.charts.setOnLoadCallback(drawCharts);
 
-	/* función que carga cada uno de los gráficos */
+
+
 	function drawCharts() {
 		drawChartP1();
+		drawChartP2();
 
 	}
+	/*Personas que han fallecido despues de estar en la uni separadas por sexo */
+	google.charts.load("current", {packages:["corechart"]});
+	google.charts.setOnLoadCallback(drawChartP1);
 	function drawChartP1() {
-		var data = new google.visualization.arrayToDataTable([
-		['edad','alcoholismo'],
-		<?php
-			$query = "SELECT alcoholismo, edad FROM dim_paciente";
-			$exec = mysqli_query($con,$query);
-			while($row = mysqli_fetch_array($exec)){
-				echo "['".$row['edad']."',".$row['alcoholismo']."],";
+		var data = google.visualization.arrayToDataTable([  
+		['SEXO','UCI' ,'FALLECIDOS',], 
+		  	<?php  				   
+			$query = "SELECT (SELECT sexo from dim_paciente where id_cliente=id) as s, count(uci) ,count(fallecido) FROM tabla_hechos where fallecido='1' and uci='1' group by s";  
+			$result = mysqli_query($con, $query);    
+			while($row = mysqli_fetch_array($result)){  
+				echo "[".$row["s"].", ".$row["count(uci)"].",".$row['count(fallecido)']."],";  
+            	  
 			}
-		?>
-    	]);
-    	var options = {
-    	title: 'Number of Payments according to their method',
-    	pieHole: 0.5,
-    	pieSliceTextStyle: {
-    			color: 'black',
-			},
-    	legend: 'top',
-    	is3D: false
-    	};
-
-    	var chart = new google.visualization.PieChart(document.getElementById("p1Chart"));
-			chart.draw(data,options);
-    }
-	google.charts.load('current', {'packages':['gauge']});
+		?>  
+	]);  
+		var options = {  
+	        title: 'Personas que han fallecido y despues de estar en la uci separados por sexo',  
+			is3D:true,  
+			pieHole: 0.4  
+        };  
+		var chart1 = new google.visualization.ColumnChart(document.getElementById('p1Chart')); 
+        chart1.draw(data, options);  
+	} 
+	
+	
+	/*Grafico que muestra los fallecidados en cada hospital */
 	google.charts.setOnLoadCallback(drawChartP2);
 	function drawChartP2() {
-
-		var data = google.visualization.arrayToDataTable([
-		['Hospital', 'Value'],
-		['Hospital', <?php
-                		$query = "SELECT count(uci) FROM tabla_hechos where id_hospital=1";
-                        $exec = mysqli_query($con,$query);
-						while($row = mysqli_fetch_array($exec)){
-                            echo "['".$row['Hospital']."',".$row['Value']."],";
-						}
-                		?>]);
-		var options = {
-            width: 400, height: 120,
-			redFrom: 90, redTo: 100,
-			yellowFrom:75, yellowTo: 90,
-			minorTicks: 5
-			};
-			var chart = new google.visualization.Gauge(document.getElementById('p2Chart'));
-			chart.draw(data, options);
-			setInterval(function() {
-			data.setValue(0, 1,40);
-			chart.draw(data, options);
-			}, 13000);
+		var data = google.visualization.arrayToDataTable([  
+		['Hospital', 'Fallecido'], 
+		  	<?php  				   
+			$query = "SELECT id_hospital, count(fallecido) FROM tabla_hechos WHERE fallecido = '1' GROUP BY id_hospital";  
+			$result = mysqli_query($con, $query);    
+			while($row = mysqli_fetch_array($result)){  
+				echo "['Hospital ".$row["id_hospital"]."', ".$row["count(fallecido)"]."],";  
+            	  
 			}
+		?>  
+	]);  
+		var options = {  
+	        title: 'Porcentaje de fallecidos en cada hospital',  
+			is3D:true,  
+			pieHole: 0.4  
+        };  
+		var chart1 = new google.visualization.PieChart(document.getElementById("p2Chart"));  
+        chart1.draw(data, options);  
+	} 
+
+
+	//Grafico de barras numero de personas en la uci en cada hospital y duracion media que han estado es ella.
+	google.charts.load("current", {packages:["corechart"]});
+	google.charts.setOnLoadCallback(drawChartP3);
+	function drawChartP3() {
+		var data = google.visualization.arrayToDataTable([  
+		['Hospiatal','UCI' ,'DURACION'], 
+		  	<?php  				   
+			$query = "SELECT id_hospital, avg(duracion) ,count(uci) FROM tabla_hechos where uci='1' GROUP by id_hospital";  
+			$result = mysqli_query($con, $query);    
+			while($row = mysqli_fetch_array($result)){  
+				echo "['Hospital ".$row["id_hospital"]."', ".$row["count(uci)"].",".$row['avg(duracion)']."],";  
+            	  
+			}
+		?>  
+	]);  
+		var options = {  
+	        title: 'Numero de ingresados en UCI por cada hospital y la duracion media que han estado en UCI',  
+			is3D:true,  
+			pieHole: 0.4  
+        };  
+		var chart1 = new google.visualization.ColumnChart(document.getElementById('p3Chart')); 
+        chart1.draw(data, options);  
+	}
+
+	google.charts.load("current", {packages:["corechart"]});
+	google.charts.setOnLoadCallback(drawChartP4);
+	function drawChartP4() {
+		var data = google.visualization.arrayToDataTable([  
+		['Hospiatal','DURACION'], 
+		  	<?php  				   
+			$query = "SELECT id_hospital, avg(duracion) FROM tabla_hechos where fallecido = '0' GROUP by id_hospital";  
+			$result = mysqli_query($con, $query);    
+			while($row = mysqli_fetch_array($result)){  
+				echo "['Hospital ".$row["id_hospital"]."',".$row['avg(duracion)']."],";  
+            	  
+			}
+		?>  
+	]);  
+		var options = {  
+	        title: 'Duracion media de los pacientes en el hospital y no han fallecido',  
+			is3D:true,  
+			pieHole: 0.4  
+        };  
+		var chart1 = new google.visualization.ColumnChart(document.getElementById('p4Chart')); 
+        chart1.draw(data, options);  
+	} 
+	
 </script>
- <script src="charts.js"></script>
  <link rel="stylesheet" href="style.css">
 
  </head>
@@ -81,13 +131,12 @@
         <!-- Título superior -->
         <h1>Dashboard</h1>
 
-        <!-- Grid con todos los paneles -->
         <div class="dashboard-wrapper">
-            <div id='p1' class='panel'><h2>Panel principal</h2> <div id='p1Chart'></div> </div>
-            <div id='p2' class='panel'><h2>Sub panel 1</h2> <div id='p2Chart'></div> </div>
-            <div id='p3' class='panel'><h2>Sub panel 2</h2> <div id='p3Chart'></div> </div>
-            <div id='p4' class='panel'><h2>Sub panel 3</h2> <div id='p4Chart'></div> </div>
-            <div id='p5' class='panel'><h2>Bottom panel</h2> <div id='p5Chart'></div> </div>
+        
+			<div id='p1' class='panel'><h2>Fallecidos </h2><div id='p2Chart'></div> </div>
+			<div id='p2' class='panel'><h2>UCI y fallecidos por sexo </h2><div id='p1Chart'></div> </div>
+			<div id='p3' class='panel'><h2>Ingresados en UCI</h2> <div id='p3Chart'></div> </div>
+            <div id='p4' class='panel'><h2>Duracion de no fallecidos</h2> <div id='p4Chart'></div> </div>
         </div>
 
     </body>
